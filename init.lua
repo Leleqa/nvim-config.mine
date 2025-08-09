@@ -2,6 +2,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
+
 vim.g.have_nerd_font = true
 
 -- NOTE: You can change these options as you wish!
@@ -13,7 +18,7 @@ vim.o.number = true
 vim.keymap.set('n', '<leader>n', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end, { desc = 'Toggle relative line numbers' })
---
+
 -- vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -90,7 +95,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
+vim.keymap.set('n', '<leader>m', vim.diagnostic.open_float, { desc = 'Open diagnostic floater' })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -544,6 +549,7 @@ require('lazy').setup({
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
+        virtual_lines = false,
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
         underline = { severity = vim.diagnostic.severity.ERROR },
@@ -565,7 +571,8 @@ require('lazy').setup({
               [vim.diagnostic.severity.INFO] = diagnostic.message,
               [vim.diagnostic.severity.HINT] = diagnostic.message,
             }
-            return diagnostic_message[diagnostic.severity]
+            --return diagnostic_message[diagnostic.severity]
+            return nil
           end,
         },
       }
@@ -815,7 +822,8 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       require('lspconfig').clangd.setup {
         capabilities = capabilities,
-        cmd = { 'clangd', '--background-index', '--clangd-tidy' },
+        cmd = { 'clangd', '--background-index', '--fallback-style=webkit' },
+        -- cmd = { 'clangd-19', '--background-index' },
       }
     end,
   },
