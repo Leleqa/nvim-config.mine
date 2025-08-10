@@ -191,6 +191,8 @@ require('lazy').setup({
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
+  --
+  --
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -445,9 +447,6 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-          -- to define small helper and utility functions so you don't have to repeat yourself.
-          --
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
@@ -637,7 +636,10 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        'stylua',
+        'clangd',
+        'pylsp',
+        'bashls', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -822,7 +824,7 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       require('lspconfig').clangd.setup {
         capabilities = capabilities,
-        cmd = { 'clangd', '--background-index', '--fallback-style=webkit' },
+        cmd = { 'clangd-19', '--background-index', '--fallback-style=webkit' },
         -- cmd = { 'clangd-19', '--background-index' },
       }
     end,
