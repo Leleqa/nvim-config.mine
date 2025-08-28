@@ -19,6 +19,9 @@ vim.keymap.set('n', '<leader>n', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end, { desc = 'Toggle relative line numbers' })
 
+--nvim-tree toggle
+vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { desc = 'Toggle nvim-tree view' })
+
 -- vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -894,6 +897,17 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  {
+    'nvim-tree/nvim-tree.lua',
+    version = '*',
+    lazy = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('nvim-tree').setup {}
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
